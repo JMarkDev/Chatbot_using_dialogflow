@@ -7,6 +7,7 @@ const dialogflow = require("dialogflow")
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+app.use(cors());
 
 const project_id = config.project_id;
 
