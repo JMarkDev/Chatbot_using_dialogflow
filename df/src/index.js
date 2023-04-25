@@ -1,13 +1,24 @@
-const express = require("express")
-const cors = require("cors")
-const bodyParser = require("body-parser")
-const app = express()
-const config = require("./config/devKey")
-const dialogflow = require("dialogflow")
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const Database = require("./config/database");
+require("dotenv/config");
+const config = require("./config/devKey");
+const dialogflow = require("dialogflow");
+const PORT = process.env.PORT
+const userRoute = require("./routes/User");
 
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-app.use(cors());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(cors());;
+
+app.use("/api/user", userRoute);
+
+app.get('/', (req, res) => {
+    res.send("API is Running....");
+});
+
 
 const project_id = config.project_id;
 
@@ -53,6 +64,8 @@ app.post("/chatbot/query", async function(req, res) {
 });
 
 
-app.listen(3000, function(){
-    console.log("localhost runnint at 3000")
+app.listen(PORT, function(){
+    const db = new Database();
+    db.TestConnection();
+    console.log(`localhost running at ${PORT}`)
 })
