@@ -30,6 +30,8 @@ router.post("/register", async function(req, res) {
         req.body.password
     ];
 
+    // console.log(req.body)
+
     conn.connect((err) => {
         if (err) {
             throw err;
@@ -38,7 +40,7 @@ router.post("/register", async function(req, res) {
             if (err)
                 throw err;
             console.log(result);
-            return res.json({Success: true, message: "New User has been registered!"})
+            return res.json({success: true, message: "New User has been registered!"})
         });
     
     });
