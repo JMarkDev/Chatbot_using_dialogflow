@@ -30,8 +30,6 @@ router.post("/register", async function(req, res) {
         req.body.password
     ];
 
-    // console.log(req.body)
-
     conn.connect((err) => {
         if (err) {
             throw err;
@@ -39,8 +37,9 @@ router.post("/register", async function(req, res) {
         conn.query(query, values, (err, result) => {
             if (err)
                 throw err;
+            const firstLetter = req.body.username.charAt(0).toUpperCase();
             console.log(result);
-            return res.json({success: true, message: "New User has been registered!"})
+            return res.json({success: true, message: "New User has been registered!", firstLetter: firstLetter})
         });
     
     });
@@ -65,8 +64,18 @@ router.post("/login", async function(req, res) {
                 throw err
             }
             if (result.length > 0) {
-                return res.json({ success: true, message: "Login Successfully", data: result[0]})
+                const user = result[0];
+                const firstLetter = user.username.charAt(0).toUpperCase();
+                const userData = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    firstLetter: firstLetter // add the first letter to the user data
+                }
+                console.log(firstLetter)
+                return res.json({ success: true, message: "Login Successfully", data: userData})
             }
+            
             else {
                 return res.json({ success: false, message: "Log in Failed"});
             };
