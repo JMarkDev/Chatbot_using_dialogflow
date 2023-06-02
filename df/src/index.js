@@ -33,8 +33,6 @@ const sessionClient = new dialogflow.SessionsClient({project_id, credentials});
 
 app.post("/chatbot/query", async function(req, res) {
 
-    console.log(`project_id: ${project_id}`);
-
     const {user_query} = req.body
     // console.log(user_query)
 
@@ -54,11 +52,8 @@ app.post("/chatbot/query", async function(req, res) {
 
     try {
         const responses = await sessionClient.detectIntent(request);
-        console.log(responses)
-        console.log('Detected intent');
         res.json({data: responses[0].queryResult.fulfillmentText, success: true});
     } catch (e) {
-        console.log(e);
         res.status(500).send('Internal Server Error');
     }
 });

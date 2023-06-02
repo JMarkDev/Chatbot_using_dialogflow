@@ -38,7 +38,6 @@ router.post("/register", async function(req, res) {
             if (err)
                 throw err;
             const firstLetter = req.body.username.charAt(0).toUpperCase();
-            console.log(result);
             return res.json({success: true, message: "New User has been registered!", firstLetter: firstLetter})
         });
     
@@ -72,7 +71,6 @@ router.post("/login", async function(req, res) {
                     email: user.email,
                     firstLetter: firstLetter // add the first letter to the user data
                 }
-                console.log(firstLetter)
                 return res.json({ success: true, message: "Login Successfully", data: userData})
             }
             
